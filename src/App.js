@@ -1,9 +1,10 @@
 // src/App.js
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Home from './components/Home';
-import About from './components/About';
-import CongressTrades from './components/CongressTrades';
+import Home from './components/pages/Home';
+import About from './components/pages/About';
+import NavBar from './components/NavBar';
+import Search from './components/pages/CongressTrades';
 
 const App = () => {
   return (
@@ -11,16 +12,13 @@ const App = () => {
       <div className="App">
         <header>
           {/* Navigation or header */}
+          <NavBar />
         </header>
         <Routes>
-          <Route path="/Home" element={<Home />} />
-          <Route path="/About" element={<About />} />
-          <Route path="/" element={<CongressTrades />} />
-          {/* Other routes */}
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/search" element={<Search />} />
         </Routes>
-        <footer>
-          {/* Footer */}
-        </footer>
       </div>
     </Router>
   );
