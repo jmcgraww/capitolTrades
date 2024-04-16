@@ -1,6 +1,21 @@
-# test_api.py
-
+from data_structures import TradeNode, PoliticianGraph
 import requests
+
+def build_politician_graphs(data):
+    politicians = {}
+    for entry in data:
+        name = entry['representative']
+        if name not in politicians:
+            politicians[name] = PoliticianGraph(name)
+        politicians[name].add_trade(
+            entry['ticker'],
+            entry['asset_description'],
+            entry['disclosure_date'],
+            entry['type'],
+            entry['amount']
+        )
+    return politicians
+
 def main():
     api_url = 'https://house-stock-watcher-data.s3-us-west-2.amazonaws.com/data/all_transactions.json'
 
@@ -9,33 +24,30 @@ def main():
         response = requests.get(api_url)
         response.raise_for_status()  # Raise an exception if the response status code is not 200
         data = response.json()
-        size_of_data = len(data)
         
-        # data is an array of dicts (ea dict is a row within dataset)
-        
-        set_of_congress = set()
-        for x in range(size_of_data):
-            entry = data[x]
-            set_of_congress.add(entry['representative'])
-        print("Welcome to Capitol Trades!  Enter 'x' to exit at any time..")
+        # Build graphs for each politician from data
+        politician_graphs = build_politician_graphs(data)
+
+        print("Welcome to Capitol Trades! Enter 'x' to exit at any time.")
         cont = True
         while (cont):
-            target_congress = input("Enter a congress member:")
-            if (target_congress == "x"):
-                cont = False
-            elif (target_congress not in set_of_congress):
+            target_congress = input("Enter a congress member: ")
+            #if (target_congress == "x"):
+                #cont = False
+            if target_congress not in politician_graphs:
                 print("Congress person not found..")
-            
             else:
-                for x in range(size_of_data):
-                    entry = data[x]
-                    if (entry['representative'] == target_congress):   
-                        print(f"Entry {x + 1}: {entry['disclosure_year']}, {(entry['type']).upper()}: ({entry['ticker']}): {entry['amount']} | {entry['party']} Rep: {entry['representative']}")
+                print(f"Trades for {target_congress}:")
+                for ticker, node in politician_graphs[target_congress].stocks.items():
+                    print(f"{ticker} ({node.company_name}):")
+                    for date, trades in node.trades.items():
+                        for trade in trades:
+                            print(f"  Date: {date}, Type: {trade[0]}, Amount: {trade[1]}")
 
     except Exception as e:
         print(f"Error fetching data: {e}")
-        
+
     print("Done\n")
+
 if __name__ == "__main__":
     main()
-    

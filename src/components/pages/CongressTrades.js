@@ -1,33 +1,45 @@
-// CongressTrades.js
-
 import React, { useState } from 'react';
 import axios from 'axios';
 
 const CongressTrades = () => {
+  const [inputValue, setInputValue] = useState('');  // Added to handle input field state separately
   const [congressMember, setCongressMember] = useState('');
   const [trades, setTrades] = useState([]);
   const [error, setError] = useState('');
 
-  const fetchData = async () => {
+  const handleSearch = async () => {
+    console.log('Initiating search for:', inputValue);
     try {
-      const response = await axios.get(
-        'https://house-stock-watcher-data.s3-us-west-2.amazonaws.com/data/all_transactions.json'
-      );
-      const data = response.data;
-      const congressSet = new Set(data.map((entry) => entry.representative));
-
-      if (!congressSet.has(congressMember)) {
-        setError('Congress person not found.');
-        setTrades([]);
+      const response = await axios.get('/search', {
+        params: { term: inputValue }
+      });
+      console.log('Search results:', response.data);
+      if (response.data.length > 0) {
+        fetchTrades(response.data[0]);
       } else {
-        const filteredTrades = data.filter(
-          (entry) => entry.representative === congressMember
-        );
-        setTrades(filteredTrades);
-        setError('');
+        setTrades([]);
+        setError('Congress person not found.');
+        setCongressMember('');  // Clear the displayed name if no matches
       }
     } catch (error) {
+      console.error('Error fetching matches:', error);
       setError('Error fetching data. Please try again later.');
+      setTrades([]);
+      setCongressMember('');  // Clear the displayed name on error
+    }
+  };
+
+  const fetchTrades = async (name) => {
+    console.log('Fetching trades for:', name);
+    try {
+      const response = await axios.get(`/trades/${name}`);
+      console.log('Trades fetched:', response.data);
+      setTrades(response.data);
+      setCongressMember(name);  // Set the displayed name here, after successful fetch
+      setError('');
+    } catch (error) {
+      console.error('Error fetching trades:', error);
+      setError('Error fetching trades. Please try again later.');
       setTrades([]);
     }
   };
@@ -38,24 +50,22 @@ const CongressTrades = () => {
       <p>Enter a congress member:</p>
       <input
         type="text"
-        value={congressMember}
-        onChange={(e) => setCongressMember(e.target.value)}
+        value={inputValue}
+        onChange={(e) => setInputValue(e.target.value)}
       />
-      <button onClick={fetchData}>Search</button>
+      <button onClick={handleSearch}>Search</button>
       {error && <p>{error}</p>}
+      {congressMember && (
+        <h2>List of Stock Trades for {congressMember}</h2>
+      )}
       {trades.length > 0 && (
-        <div>
-          <h2>Stock Trades for {congressMember}</h2>
-          <ul>
-            {trades.map((entry, index) => (
-              <li key={index}>
-                Entry {index + 1}: {entry.disclosure_year},{' '}
-                {entry.type.toUpperCase()}: ({entry.ticker}): {entry.amount} |{' '}
-                {entry.party} Rep: {entry.representative}
-              </li>
-            ))}
-          </ul>
-        </div>
+        <ul>
+          {trades.map((trade, index) => (
+            <li key={index}>
+              Entry {index + 1}: {trade.date}, {trade.trade_type.toUpperCase()}: ({trade.ticker}): {trade.amount} | {trade.company_name}
+            </li>
+          ))}
+        </ul>
       )}
     </div>
   );
