@@ -1,4 +1,4 @@
-from data_structures import TradeNode, PoliticianGraph
+from data_structures import Stock, PoliticianGraph
 import requests
 
 def build_politician_graphs(data):

@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const CongressTrades = () => {
-  const [inputValue, setInputValue] = useState('');  // Added to handle input field state separately
-  const [congressMember, setCongressMember] = useState('');
-  const [trades, setTrades] = useState([]);
-  const [error, setError] = useState('');
+  const CongressTrades = () => {
+    const [inputValue, setInputValue] = useState('');
+    const [congressMember, setCongressMember] = useState('');
+    const [trades, setTrades] = useState([]);
+    const [visibleTrades, setVisibleTrades] = useState({});
+    const [error, setError] = useState('');
 
   const handleSearch = async () => {
     console.log('Initiating search for:', inputValue);
@@ -44,6 +45,13 @@ const CongressTrades = () => {
     }
   };
 
+  const toggleTradeVisibility = (ticker) => {
+    setVisibleTrades(prevVisibleTrades => ({
+      ...prevVisibleTrades,
+      [ticker]: !prevVisibleTrades[ticker]
+    }));
+  };
+
   return (
     <div>
       <h1>Capitol Trades</h1>
@@ -55,18 +63,45 @@ const CongressTrades = () => {
       />
       <button onClick={handleSearch}>Search</button>
       {error && <p>{error}</p>}
-      {congressMember && (
-        <h2>List of Stock Trades for {congressMember}</h2>
-      )}
-      {trades.length > 0 && (
-        <ul>
-          {trades.map((trade, index) => (
-            <li key={index}>
-              Entry {index + 1}: {trade.date}, {trade.trade_type.toUpperCase()}: ({trade.ticker}): {trade.amount} | {trade.company_name}
-            </li>
-          ))}
-        </ul>
-      )}
+      {congressMember && <h2>List of Stock Trades for {congressMember}</h2>}
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', justifyContent: 'center' }}>
+        {Object.keys(trades).length > 0 && (
+          Object.entries(trades).map(([ticker, tradeDetails], index) => (
+            <div key={ticker}>
+              <button
+                onClick={() => toggleTradeVisibility(ticker)}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: '80px',
+                  height: '80px',
+                  borderRadius: '50%',
+                  background: '#efefef',
+                  border: 'none',
+                  boxShadow: '0px 2px 5px rgba(0, 0, 0, 0.2)',
+                  cursor: 'pointer',
+                  transition: 'transform 0.3s',
+                }}
+                onMouseOver={(e) => { e.target.style.transform = 'scale(1.1)'; }}
+                onMouseOut={(e) => { e.target.style.transform = 'scale(1)'; }}
+              >
+                {ticker}
+              </button>
+              {visibleTrades[ticker] && Array.isArray(tradeDetails) && (
+                <ul>
+                  {tradeDetails.map((trade, idx) => (
+                    <li key={idx}>
+                      Date: {trade.date}, Type: {trade.trade_type.toUpperCase()}, Amount: {trade.amount}
+                    </li>
+                  ))}
+                </ul>
+              )}
+
+            </div>
+          ))
+        )}
+      </div>
     </div>
   );
 };

@@ -1,8 +1,8 @@
+
 from flask import Flask, request, jsonify
 import requests
 from flask_cors import CORS
 from app import build_politician_graphs
-from datetime import datetime
 
 app = Flask(__name__)
 CORS(app)
@@ -23,23 +23,20 @@ def search():
 @app.route('/trades/<name>', methods=['GET'])
 def get_trades(name):
     if name in politician_graphs:
-        trades = []
+        trades = {}
         for ticker, node in politician_graphs[name].stocks.items():
+            trade_details = []
             for date, trades_info in node.trades.items():
                 for trade in trades_info:
-                    trades.append({
-                        "ticker": ticker,
-                        "company_name": node.company_name,
+                    trade_details.append({
                         "date": date,
                         "trade_type": trade[0],
                         "amount": trade[1]
                     })
-        # Convert date strings to datetime objects and sort descending
-        trades.sort(key=lambda x: datetime.strptime(x['date'], '%m/%d/%Y'), reverse=True)
+            trades[ticker] = trade_details  # Ensure it's an array
         return jsonify(trades)
     else:
         return jsonify({"error": "Politician not found"}), 404
-
 
 if __name__ == '__main__':
     app.run(debug=True)
