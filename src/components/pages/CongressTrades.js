@@ -88,16 +88,21 @@ import axios from 'axios';
               >
                 {ticker}
               </button>
-              {visibleTrades[ticker] && Array.isArray(tradeDetails) && (
-                <ul>
-                  {tradeDetails.map((trade, idx) => (
-                    <li key={idx}>
-                      Date: {trade.date}, Type: {trade.trade_type.toUpperCase()}, Amount: {trade.amount}
-                    </li>
-                  ))}
-                </ul>
+              {visibleTrades[ticker] && (
+                <div>
+                  {/* Display the company name from the first trade if available */}
+                  {tradeDetails.length > 0 && (
+                    <strong>{tradeDetails[0].name}</strong>
+                  )}
+                  <ul>
+                    {tradeDetails.map((trade, idx) => (
+                      <li key={idx}>
+                        <div>Date | {trade.date} | Type: {trade.trade_type.toUpperCase()} | Amount: {trade.amount}</div>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               )}
-
             </div>
           ))
         )}

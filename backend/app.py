@@ -7,13 +7,15 @@ def build_politician_graphs(data):
         name = entry['representative']
         if name not in politicians:
             politicians[name] = PoliticianGraph(name)
-        politicians[name].add_trade(
-            entry['ticker'],
-            entry['asset_description'],
-            entry['disclosure_date'],
-            entry['type'],
-            entry['amount']
-        )
+        # rare edge case of data not having an associated symbol
+        if entry['ticker'] != "--":
+            politicians[name].add_trade(
+                entry['ticker'],
+                entry['asset_description'],
+                entry['disclosure_date'],
+                entry['type'],
+                entry['amount']
+            )
     return politicians
 
 def main():
@@ -32,8 +34,7 @@ def main():
         cont = True
         while (cont):
             target_congress = input("Enter a congress member: ")
-            #if (target_congress == "x"):
-                #cont = False
+            
             if target_congress not in politician_graphs:
                 print("Congress person not found..")
             else:

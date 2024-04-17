@@ -17,13 +17,15 @@ def search():
     search_term = request.args.get('term', '')  # Get search term from query string
     
     # Use the pre-built graph
-    matches = [name for name in politician_graphs if search_term.lower() in name.lower()]
+    matches = [name for name in politician_graphs if search_term.lower() == name.lower()]
     return jsonify(matches)
 
 @app.route('/trades/<name>', methods=['GET'])
 def get_trades(name):
+    # check if politican exists
     if name in politician_graphs:
         trades = {}
+        # iterate through our tickers
         for ticker, node in politician_graphs[name].stocks.items():
             trade_details = []
             for date, trades_info in node.trades.items():
@@ -31,7 +33,8 @@ def get_trades(name):
                     trade_details.append({
                         "date": date,
                         "trade_type": trade[0],
-                        "amount": trade[1]
+                        "amount": trade[1],
+                        "name": node.company_name
                     })
             trades[ticker] = trade_details  # Ensure it's an array
         return jsonify(trades)
