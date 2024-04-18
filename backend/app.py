@@ -1,22 +1,5 @@
-from data_structures import Stock, PoliticianGraph
+from data_structures import build_politician_graphs
 import requests
-
-def build_politician_graphs(data):
-    politicians = {}
-    for entry in data:
-        name = entry['representative']
-        if name not in politicians:
-            politicians[name] = PoliticianGraph(name)
-        # rare edge case of data not having an associated symbol
-        if entry['ticker'] != "--":
-            politicians[name].add_trade(
-                entry['ticker'],
-                entry['asset_description'],
-                entry['disclosure_date'],
-                entry['type'],
-                entry['amount']
-            )
-    return politicians
 
 def main():
     api_url = 'https://house-stock-watcher-data.s3-us-west-2.amazonaws.com/data/all_transactions.json'
