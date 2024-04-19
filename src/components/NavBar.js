@@ -52,7 +52,7 @@ function NavBar() {
             </li>
             <li>
               <Link
-                to='/search'
+                to="/search"
                 className='nav-links-mobile'
                 onClick={closeMobileMenu}
               >
@@ -60,7 +60,7 @@ function NavBar() {
               </Link>
             </li>
           </ul>
-          {button && <Button buttonStyle='btn--outline'>SEARCH</Button>}
+          {button && <Button path="/search" buttonStyle='btn--outline'>SEARCH</Button>}
         </div>
       </nav>
     </>
