@@ -9,14 +9,19 @@ const CongressTrades = () => {
   const [error, setError] = useState('');
   const [dataStructure, setDataStructure] = useState(null); // State to track the chosen data structure
   const [searchBarVisible, setSearchBarVisible] = useState(false);
+  const [queryTime, setQueryTime] = useState(null);
 
   const handleSearch = async () => {
     console.log('Initiating search for:', inputValue);
     try {
+      const startTime = Date.now(); // Record start time
       const response = await axios.get('/search', {
         params: { term: inputValue, data_structure: dataStructure }, // Pass chosen data structure
       });
+      const endTime = Date.now(); // Record end time
+      const timeElapsed = endTime - startTime; // Calculate time taken for the query
       console.log('Search results:', response.data);
+      setQueryTime(timeElapsed); // Set query time
       if (response.data.length > 0) {
         setSearchBarVisible(true);
         fetchTrades(response.data[0]);
@@ -69,12 +74,13 @@ const CongressTrades = () => {
           <>
             <h2 style={{ marginBottom: '20px' }}>Would you like to use an Adjacency List or Adjacency Matrix in the backend?</h2>
             <div>
-              <button style={{ fontSize: '20px', padding: '10px 20px', margin: '10px' }} onClick={() => setSearchBarVisible(true)}>
-                Use Adjacency List
-              </button>
-              <button style={{ fontSize: '20px', padding: '10px 20px', margin: '10px' }} onClick={() => setSearchBarVisible(true)}>
-                Use Adjacency Matrix
-              </button>
+            <button style={{ fontSize: '20px', padding: '10px 20px', margin: '10px' }} onClick={() => { setDataStructure('list'); setSearchBarVisible(true); }}>
+              Use Adjacency List
+            </button>
+            <button style={{ fontSize: '20px', padding: '10px 20px', margin: '10px' }} onClick={() => { setDataStructure('matrix'); setSearchBarVisible(true); }}>
+              Use Adjacency Matrix
+            </button>
+
             </div>
           </>
         )}
@@ -98,6 +104,9 @@ const CongressTrades = () => {
             <button onClick={handleSearch} style={{ fontSize: '20px', padding: '10px 20px', margin: '10px' }}>
               Search
             </button>
+            {queryTime && (
+              <p style={{ fontSize: '16px', marginTop: '10px' }}>Query Time: {queryTime} ms</p>
+            )}
           </>
         )}
       </div>
