@@ -104,6 +104,28 @@ const CongressTrades = () => {
     }
   };
 
+  const calculateTotalVolume = (trades) => {
+    console.log("Trades array:", trades); // Log the trades array
+    let totalVolume = 0;
+    let totalTrades = 0; // Counter for the total number of trades
+    
+    trades.forEach((trade) => {
+      const averageAmount = (parseInt(trade.amount[0]) + parseInt(trade.amount[1])) / 2; // Calculate the average amount
+      totalTrades++; // Increment the total trades counter
+  
+      if (trade.trade_type === 'purchase') {
+        totalVolume += averageAmount; // Add the average amount to total volume
+      } else if (trade.trade_type === 'sale_full' || trade.trade_type == 'sale_partial') {
+        totalVolume -= averageAmount; // Subtract the average amount from total volume
+      }
+    });
+    
+    if (totalTrades === 0) return '0'; // Handle division by zero
+    
+    return totalVolume.toLocaleString(); // Return the total volume as localized string
+  };
+  
+  
   return (
     <div>
       <h1 style={{ marginTop: '60px', marginBottom: '30px' }}>Capitol Trades</h1>
@@ -178,7 +200,7 @@ const CongressTrades = () => {
                 height: '60px',
                 fontSize: '16px',
                 borderRadius: '5px',
-                background: getButtonColor(ticker), // Set button color dynamically
+                background: getButtonColor(ticker),
                 border: 'none',
                 boxShadow: '0px 2px 5px rgba(0, 0, 0, 0.2)',
                 cursor: 'pointer',
@@ -191,10 +213,10 @@ const CongressTrades = () => {
                 e.target.style.background = '#d9d9d9';
               }}
               onMouseLeave={(e) => {
-                e.target.style.background = getButtonColor(ticker); // Restore original color on mouse leave
+                e.target.style.background = getButtonColor(ticker);
               }}
             >
-              {ticker}
+              {ticker} | Estimated Volume: {calculateTotalVolume(trades[ticker])}
             </button>
             {visibleTrades[ticker] && (
               <div
@@ -215,7 +237,7 @@ const CongressTrades = () => {
                   .sort((a, b) => {
                     const dateA = new Date(a.date);
                     const dateB = new Date(b.date);
-                    return dateB - dateA; // Sort in descending order
+                    return dateB - dateA;
                   })
                   .map((trade, idx) => (
                     <li

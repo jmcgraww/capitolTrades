@@ -1,39 +1,45 @@
-class Stock: #Used to store information about a certain stock's interactions with a certain politician.  Not a general object for stocks, acts more like an instance of a stock that represents its interactions with one particular politician
-    def __init__(self, ticker, company_name): #Initialize stock object with ticker and company name
+class Stock:
+    def __init__(self, ticker, company_name):
         self.ticker = ticker
         self.company_name = company_name
-        self.min_value = 0
-        self.max_value = 0
-        self.trades = {} #dictionary to store trades involving the stock
+        self.trades = {}
+        self.total_volume = 0  # Initialize total_volume attribute
 
-    def clean_amount(self, amount_str): #clean the amount string for use with min/max calculation
-        
+    def clean_amount(self, amount_str):
         cleaned_amount = amount_str.replace('$', '').replace(',', '')
 
         if ' - ' in cleaned_amount:
-            return cleaned_amount.replace(' - ', ' ').strip()
+            return [int(val) for val in cleaned_amount.split(" - ") if val]  # Filter out empty strings
         elif '+' in cleaned_amount:
-            return cleaned_amount.replace('+', '').strip()
+            return [int(cleaned_amount.replace('+', '').strip())]
+        elif '-' in cleaned_amount:  # Handle the case of a single number followed by a hyphen
+            return [int(cleaned_amount.replace('-', '').strip())]
         else:
-            return cleaned_amount.strip()
+            return [int(cleaned_amount.strip())]
 
     def add_trade(self, date, trade_type, amount_str):
-        
-        cleaned_amount = self.clean_amount(amount_str)
+        cleaned_amounts = self.clean_amount(amount_str)
 
-        if date in self.trades: #store trades by date
-            self.trades[date].append((trade_type, cleaned_amount))
+        if date in self.trades:
+            self.trades[date].append((trade_type, cleaned_amounts))
         else:
-            self.trades[date] = [(trade_type, cleaned_amount)]
+            self.trades[date] = [(trade_type, cleaned_amounts)]
+
+    def calculate_volume(self):
+        self.total_volume = 0  # Reset total_volume attribute
+        for trades_list in self.trades.values():
+            for trade in trades_list:
+                for amount in trade[1]:
+                    self.total_volume += amount  # Sum the individual amounts within the range if present
 
 
-def build_politician_graphs(data): #Build adjacency list of a politicians trades (map politicians to Stock objects, which hold individual trade information)
+
+def build_politician_graphs(data):
     politicians = {}
     for entry in data:
         name = entry['representative']
         if name not in politicians:
             politicians[name] = PoliticianGraph(name)
-        # rare edge case of data not having an associated symbol
         if entry['ticker'] != "--":
             politicians[name].add_trade(
                 entry['ticker'],
@@ -42,7 +48,12 @@ def build_politician_graphs(data): #Build adjacency list of a politicians trades
                 entry['type'],
                 entry['amount']
             )
+    # Calculate total volume for each stock
+    for politician_graph in politicians.values():
+        for stock in politician_graph.stocks.values():
+            stock.calculate_volume()
     return politicians
+
 
 def build_politician_matrix(data, stock_list): #Build matrix of [Politicians] x [Stock tickers]
     # Extract all unique politicians
@@ -69,11 +80,14 @@ class PoliticianGraph:
     def __init__(self, name):
         self.name = name
         self.stocks = {}
+        self.total_traded = 0
+        self.total_volume = 0  # Initialize total volume to 0
 
-    def add_trade(self, ticker, company_name, date, trade_type, amount): #add a trade to the politicians adjacency list
-        if ticker not in self.stocks: #if this particular ticker is not in the adjacency list yet, then initialize new Stock object for it
+    def add_trade(self, ticker, company_name, date, trade_type, amount):
+        if ticker not in self.stocks:
             self.stocks[ticker] = Stock(ticker, company_name)
-        self.stocks[ticker].add_trade(date, trade_type, amount) #Add the trade, sorted with trades of the same ticker
+        self.stocks[ticker].add_trade(date, trade_type, amount)
+
 
 
 class PoliticianMatrix:
