@@ -1,10 +1,17 @@
 {
   "files": {
-    "main.js": "/static/js/main.2a3a456c.js",
+    "main.css": "/static/css/main.c7451a41.css",
+    "main.js": "/static/js/main.ea81f32d.js",
+    "static/media/question.jpeg": "/static/media/question.aa5709d9d7e78f939730.jpeg",
+    "static/media/image2.jpeg": "/static/media/image2.2667e2c0c2799a13beb1.jpeg",
+    "static/media/img1.jpeg": "/static/media/img1.c8f6a29b02d3988cdb4d.jpeg",
+    "static/media/govPic.jpeg": "/static/media/govPic.1979fa16be00520c508f.jpeg",
     "index.html": "/index.html",
-    "main.2a3a456c.js.map": "/static/js/main.2a3a456c.js.map"
+    "main.c7451a41.css.map": "/static/css/main.c7451a41.css.map",
+    "main.ea81f32d.js.map": "/static/js/main.ea81f32d.js.map"
   },
   "entrypoints": [
-    "static/js/main.2a3a456c.js"
+    "static/css/main.c7451a41.css",
+    "static/js/main.ea81f32d.js"
   ]
 }

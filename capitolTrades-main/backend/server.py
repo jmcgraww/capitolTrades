@@ -72,7 +72,6 @@ def get_trades(name):
                             "date": date,
                             "trade_type": trade[0],
                             "amount": trade[1],
-                            "amount_str": trade[2],
                             "name": node.company_name
                         })
                 trades[ticker] = trade_details
