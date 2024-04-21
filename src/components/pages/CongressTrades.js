@@ -112,14 +112,15 @@ const CongressTrades = () => {
     trades.forEach((trade) => {
       const averageAmount = (parseInt(trade.amount[0]) + parseInt(trade.amount[1])) / 2; // Calculate the average amount
       totalTrades++; // Increment the total trades counter
-  
-      if (trade.trade_type === 'purchase') {
-        totalVolume += averageAmount; // Add the average amount to total volume
-      } else if (trade.trade_type === 'sale_full' || trade.trade_type == 'sale_partial') {
-        totalVolume -= averageAmount; // Subtract the average amount from total volume
-      }
+      totalVolume += averageAmount
+    //   if (trade.trade_type === 'purchase') {
+    //     totalVolume += averageAmount; // Add the average amount to total volume
+    //   } else if (trade.trade_type === 'sale_full' || trade.trade_type == 'sale_partial') {
+    //     totalVolume -= averageAmount; // Subtract the average amount from total volume
+    //   }
+    // });
     });
-    
+      
     if (totalTrades === 0) return '0'; // Handle division by zero
     
     return totalVolume.toLocaleString(); // Return the total volume as localized string
@@ -216,7 +217,7 @@ const CongressTrades = () => {
                 e.target.style.background = getButtonColor(ticker);
               }}
             >
-              {ticker} | Estimated Volume: {calculateTotalVolume(trades[ticker])}
+              {ticker} | Estimated Volume: ${calculateTotalVolume(trades[ticker])}
             </button>
             {visibleTrades[ticker] && (
               <div
@@ -245,7 +246,7 @@ const CongressTrades = () => {
                       style={{ background: '#f7f7f7', margin: '5px 0', padding: '10px', borderRadius: '5px' }}
                     >
                       <div>
-                        Date: {trade.date} | Type: {trade.trade_type} | {trade.amount.toLocaleString()}
+                        Date: {trade.date} | Type: {trade.trade_type} | {trade.amount_str}
                       </div>
                     </li>
                   ))}
