@@ -33,7 +33,7 @@ export const Button = ({
             onClick={onClick}
             type={type}
             >
-                {children} // Display button's children elements
+                {children} 
             </button>
         </Link>
     )
