@@ -56,14 +56,11 @@ def build_politician_graphs(data):
     return politicians
 
 
-def build_politician_matrix(data, stock_list): #Build matrix of [Politicians] x [Stock tickers]
-    # Extract all unique politicians
-    unique_politicians = set(entry['representative'] for entry in data if entry['representative']) 
-    matrix = PoliticianMatrix(list(unique_politicians), stock_list) #Use unique politicians and unique stock tickers as indices
+def build_politician_matrix(data, stock_list):
+    unique_politicians = set(entry['representative'] for entry in data if entry['representative'])
+    matrix = PoliticianMatrix(list(unique_politicians), stock_list)
 
-    #NOTE - The politician matrix DOES use the Stock class to construct the matrix, but it happens at compile in 'server.py' when the list of unique stocks is initialized
-
-    for entry in data: #Populate matrix cells (list inside a list inside a list) with information about trades between the politician and the stock
+    for entry in data:
         if entry['ticker'] != "--" and entry['representative']:
             matrix.add_trade(
                 entry['representative'],
@@ -75,6 +72,7 @@ def build_politician_matrix(data, stock_list): #Build matrix of [Politicians] x 
                 }
             )
     return matrix
+
 
 
 class PoliticianGraph:
@@ -103,36 +101,41 @@ class PoliticianMatrix:
         self.stock_indices = {stock.ticker: i for i, stock in enumerate(stock_list)}
         self.matrix = [[[] for _ in range(len(stock_list))] for _ in range(len(politicians))] #Matrix of [Politicians] x [Stock Tickers] where each cell holds trading information (2d list)
 
-    def add_trade(self, politician, ticker, trade_info): #Add trade info to a cell of the matrix
-        if ticker in self.stock_indices and politician in self.politician_indices: #Locate correct row and col corresponding to politician and given ticker
-            row = self.politician_indices[politician]
-            col = self.stock_indices[ticker]
-            self.matrix[row][col].append(trade_info) #Append trade info into the matrix cell
+    def add_trade(self, politician, ticker, trade_info):
+            if ticker in self.stock_indices and politician in self.politician_indices:
+                row = self.politician_indices[politician]
+                col = self.stock_indices[ticker]
+                trade_info_with_amount_str = {
+                    'date': trade_info['date'],
+                    'type': trade_info['type'],
+                    'amount': trade_info['amount'],
+                    'company_name': trade_info['company_name']
+                }
+                self.matrix[row][col].append(trade_info_with_amount_str)
 
-    def get_trades(self, politician): #Retrieve list of trades for a chosen politician
+    def get_trades(self, politician):
         if politician in self.politician_indices:
-            row = self.politician_indices[politician] #If politician is found, look onto their row of the matrix to see trades
+            row = self.politician_indices[politician]
             trades = {}
-            for ticker_index, trades_list in enumerate(self.matrix[row]): #Add trades to a dictionary with the following info: date, type of trade, amount traded, and name of the company traded with
+            for ticker_index, trades_list in enumerate(self.matrix[row]):
                 if trades_list:
                     ticker = self.stock_list[ticker_index].ticker
-                    trades[ticker] = [
-                        {
+                    trades[ticker] = []
+                    for trade in trades_list:
+                        trades[ticker].append({
                             "date": trade['date'],
                             "trade_type": trade['type'],
                             "amount": trade['amount'],
                             "name": trade['company_name']
-                        }
-                        for trade in trades_list
-                    ]
-            for i, trade in enumerate(trades[ticker]):
-                if trade['trade_type'] in ("sale_partial", "sale_full", "sale"):
-                    trades[ticker][i]['trade_type'] = "Sale"
-                elif trade['trade_type'] == "purchase":
-                    trades[ticker][i]['trade_type'] = "Purchase"
-
+                        })
+                        for i, trade in enumerate(trades[ticker]):
+                            if trade['trade_type'] in ("sale_partial", "sale_full", "sale"):
+                                trades[ticker][i]['trade_type'] = "Sale"
+                            elif trade['trade_type'] == "purchase":
+                                trades[ticker][i]['trade_type'] = "Purchase"
             return trades
-        return None  #Return None if the politician is not found
+        return None
+
 
 
 
