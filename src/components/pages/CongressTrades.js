@@ -90,21 +90,21 @@ const CongressTrades = () => {
     setPrevVisibleTrades(visibleTrades);
   };
 
-  const getLastTradeType = (ticker) => {
-    const lastTrade = trades[ticker] && trades[ticker].length > 0 ? trades[ticker][0].trade_type : null;
-    return lastTrade;
-  };
+  // const getLastTradeType = (ticker) => {
+  //   const lastTrade = trades[ticker] && trades[ticker].length > 0 ? trades[ticker][0].trade_type : null;
+  //   return lastTrade;
+  // };
 
-  const getButtonColor = (ticker) => {
-    const lastTradeType = getLastTradeType(ticker);
-    if (lastTradeType === 'Purchase') {
-      return 'green'; // Green color for purchase
-    } else if (lastTradeType === 'Sale') {
-      return 'red'; // Red color for sale
-    } else {
-      return '#efefef'; // Default color
-    }
-  };
+  // const getButtonColor = (ticker) => {
+  //   const lastTradeType = getLastTradeType(ticker);
+  //   if (lastTradeType === 'Purchase') {
+  //     return 'green'; // Green color for purchase
+  //   } else if (lastTradeType === 'Sale') {
+  //     return 'red'; // Red color for sale
+  //   } else {
+  //     return '#efefef'; // Default color
+  //   }
+  // };
 
   const calculateTotalVolume = (trades) => {
     console.log("Trades array:", trades); // Log the trades array
@@ -203,7 +203,7 @@ const CongressTrades = () => {
                 height: '60px',
                 fontSize: '16px',
                 borderRadius: '5px',
-                background: getButtonColor(ticker),
+                //background: getButtonColor(ticker),
                 border: 'none',
                 boxShadow: '0px 2px 5px rgba(0, 0, 0, 0.2)',
                 cursor: 'pointer',
@@ -216,7 +216,7 @@ const CongressTrades = () => {
                 e.target.style.background = '#d9d9d9';
               }}
               onMouseLeave={(e) => {
-                e.target.style.background = getButtonColor(ticker);
+                e.target.style.background = '#f7f7f7';
               }}
             >
               {ticker} | Estimated Volume: ${calculateTotalVolume(trades[ticker])}
@@ -248,7 +248,7 @@ const CongressTrades = () => {
                       style={{ background: '#f7f7f7', margin: '5px 0', padding: '10px', borderRadius: '5px' }}
                     >
                       <div>
-                        Date: {trade.date} | Type: {trade.trade_type} | {String(trade.amount.amount)}
+                        Date: {trade.date} | Type: {trade.trade_type} | {trade.amount_str}
                       </div>
                     </li>
                   ))}
