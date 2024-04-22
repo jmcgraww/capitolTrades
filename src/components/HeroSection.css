@@ -6,67 +6,72 @@
     z-index: -1;
 } */
 
+/* Main container for the hero section, sets up the background and centers content */
 .hero-container {
-    /* find image to place in background */
-    background: url('../images/img1.jpeg') center center/cover no-repeat;
-    height: 100vh;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    box-shadow: inset 0 0 0 1000px rgba(0,0,0, 0.2);
-    object-fit: contain;
+    background: url('../images/img1.jpeg') center center/cover no-repeat; /* Full-screen background image */
+    height: 100vh; /* Full viewport height */
+    width: 100%; /* Full viewport width */
+    display: flex; /* Use flexbox for positioning its children */
+    flex-direction: column; /* Stack children vertically */
+    justify-content: center; /* Center children vertically */
+    align-items: center; /* Center children horizontally */
+    box-shadow: inset 0 0 0 1000px rgba(0,0,0, 0.2); /* Darken the background image */
+    object-fit: contain; /* Ensure the background image is fully contained within the container */
 }
 
+/* Styling for the main heading in the hero container */
 .hero-container > h1 {
-    color : #fff;
-    font-size : 100px;
-    margin-top: -100px;
+    color: #fff; /* White text color */
+    font-size: 100px; /* Large font size for primary heading */
+    margin-top: -100px; /* Adjust spacing to the top edge */
 }
 
+/* Styling for the paragraph in the hero container */
 .hero-container > p {
-    margin-top: 8px;
-    color: #fff;
-    font-size: 32px;
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    margin-top: 8px; /* Spacing above the paragraph */
+    color: #fff; /* White text color */
+    font-size: 32px; /* Large font size for visibility */
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; 
 }
 
-.hero-btns{
-    margin-top: 32px;
+/* Container for buttons to ensure adequate spacing between them */
+.hero-btns {
+    margin-top: 32px; /* Spacing from the top element */
 }
 
+/* Uniform margin for individual buttons within the hero buttons container */
 .hero-btns .btn {
-    margin: 6px;
+    margin: 6px; /* Space around buttons */
 }
 
-.fa-play-circle{
-    margin-left: 4px;
-}
-
-@media screen and (max-width: 960px){
+/* Responsive settings for medium screens */
+@media screen and (max-width: 960px) {
     .hero-container > h1 {
-        font-size : 70px;
-        margin-top: -150px;
+        font-size: 70px; /* Smaller font size for medium screens */
+        margin-top: -150px; /* Increased negative margin to adjust layout */
     }
 }
 
-@media screen and (max-width: 768px){
+/* Responsive settings for smaller screens */
+@media screen and (max-width: 768px) {
     .hero-container > h1 {
-        font-size : 50px;
-        margin-top: -100px;
+        font-size: 50px; /* Smaller font size for small screens */
+        margin-top: -100px; /* Adjusted negative margin to fit small screens */
     }
 }
 
+/* Adjustments to paragraph font size outside of media queries to reflect a default state */
 .hero-container > p {
-    font-size : 30px;
+    font-size: 30px; /* Slightly reduced font size from the default */
 }
 
+/* Mobile specific button styling */
 .btn-mobile {
-  display: block;  
-  text-decoration: none;
+    display: block; /* Ensure buttons are block-level to fill container width */
+    text-decoration: none; /* Remove underline from buttons */
 }
 
-.btn{
-    width: 100%;
+/* full-width buttons for a cohesive mobile experience */
+.btn {
+    width: 100%; /* Full container width */
 }

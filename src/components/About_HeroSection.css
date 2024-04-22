@@ -1,3 +1,4 @@
+/* Container for the About Hero section, taking full viewport height and width */
 .about_hero-container {
     position: relative; 
     height: 100vh;
@@ -5,6 +6,7 @@
     overflow: visible; 
 }
 
+/* Wrapper for the background video to ensure it covers the entire container */
 .video-wrapper {
     position: absolute;
     top: 0;
@@ -13,12 +15,14 @@
     height: 100%;
 }
 
+/* Styling for the video to cover the available space without distortion */
 video {
     object-fit: cover;
     width: 100%;
     height: 100%;
 }
 
+/* Styling for the main headline, centered within the hero container */
 .about_hero-container > h1 {
     color: #fff;
     font-size: 100px;
@@ -30,6 +34,7 @@ video {
     transform: translate(-50%, -50%); 
 }
 
+/* Paragraph styling, centered below the headline */
 .about_hero-container > p {
     color: #fff;
     font-size: 32px;
@@ -41,6 +46,7 @@ video {
     transform: translate(-50%, 50%);
 }
 
+/* Responsive font size adjustments for the main headline */
 @media screen and (max-width: 960px){
     .about_hero-container > h1 {
         font-size: 70px;
@@ -53,30 +59,34 @@ video {
     }
 }
 
+/* Responsive font size adjustment for paragraphs (overrides previous specific setting) */
 .about_hero-container > p {
     font-size: 30px;
 }
 
+/* Container for the mission statement, positioned at the bottom of the hero section */
 .mission-box {
     position: absolute;
     bottom: -20px; 
     left: 50%;
     transform: translateX(-50%);
-    background-color: #000;
-    padding: 45px;
-    text-align: center;
-    color: #fff;
+    background-color: #000; /* Dark background for contrast */
+    padding: 45px; /* Padding for spacing around text */
+    text-align: center; /* Center-align text */
+    color: #fff; /* White text for readability */
     width: 90%; 
-    max-width: 990px; 
-    border-radius: 10px;
+    max-width: 990px; /* Maximum width to maintain layout */
+    border-radius: 10px; /* Rounded corners */
 }
 
+/* Styling for the mission title */
 .mission-box h2 {
     font-size: 28px; 
-    margin-bottom: 10px;
+    margin-bottom: 10px; /* Space below the title */
 }
 
+/* Paragraph styling within the mission box */
 .mission-box p {
     font-size: 18px; 
-    margin: 0;
+    margin: 0; /* No margin to tightly pack text */
 }

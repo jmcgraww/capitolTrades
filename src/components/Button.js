@@ -1,25 +1,31 @@
 import React from 'react'
-import "./Button.css"
-import { Link } from 'react-router-dom'
+import "./Button.css" // Style sheet for custom button appearances
+import { Link } from 'react-router-dom' // Component for wrapping the button in a navigation link
 
+// Define button styles and sizes arrays
 const STYLES = ['btn--primary','btn--outline'];
-
 const SIZES = ['btn--medium', 'btn--large'];
 
+// Button component accepting props for customization and functionality
 export const Button = ({
-    children, 
-    type, 
-    onClick, 
-    buttonStyle,
-    buttonSize,
-    path
+    children, // The content inside the button
+    type, // The type of button
+    onClick, // Function to call on button click
+    buttonStyle, // The predefined styles for the button
+    buttonSize, // The predefined sizes for the button
+    path // The router path to which the button links
 }) => {
+    // Check and apply button style, defaulting to first style if not specified
     const checkButtonStyle = STYLES.includes(buttonStyle) 
     ? buttonStyle 
-    : STYLES[0]
+    : STYLES[0];
 
-    const checkButtonSize = SIZES.includes(buttonSize) ? buttonSize : SIZES[0]
+    // Check and apply button size, defaulting to first size if not specified
+    const checkButtonSize = SIZES.includes(buttonSize) 
+    ? buttonSize 
+    : SIZES[0];
 
+    // Render the button as a Link element
     return(
         <Link to={path} className='btn-mobile'>
             <button
@@ -27,9 +33,8 @@ export const Button = ({
             onClick={onClick}
             type={type}
             >
-                {children}
+                {children} // Display button's children elements
             </button>
-
         </Link>
     )
 };

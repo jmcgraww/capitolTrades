@@ -1,42 +1,49 @@
+/* Root custom properties for theme colors */
 :root {
     --primary: #fff;
 }
 
+/* General button styling */
 .btn{
-    padding: 8px 20px;
-    border-radius: 2px;
-    outline: none;
-    border: none;
-    cursor: pointer;
+    padding: 8px 20px; /* Uniform padding around text */
+    border-radius: 2px; /* Slightly rounded corners for a soft edge */
+    outline: none; /* Removes the outline to enhance focus styles later if needed */
+    border: none; /* No border by default to keep it clean */
+    cursor: pointer; /* Changes cursor to pointer to indicate clickable */
 }
 
+/* Primary button style */
 .btn--primary {
-    background-color: var(--primary);
-    color: #242424;
-    border: 1px solid var(--primary);
+    background-color: var(--primary); /* White background from variable */
+    color: #242424; /* Dark grey text color for contrast */
+    border: 1px solid var(--primary); /* Subtle border using the same color as background */
 }
 
+/* Outline button style */
 .btn--outline {
-    background-color: transparent;
-    color: #fff;
-    padding: 8px 20px;
-    border: 1px solid var(--primary);
-    transition: all 0.3s ease-out;
+    background-color: transparent; /* No background color */
+    color: #fff; /* White text color */
+    padding: 8px 20px; /* Consistent padding with other buttons */
+    border: 1px solid var(--primary); /* White border from variable */
+    transition: all 0.3s ease-out; /* Smooth transition for hover effects */
 }
 
+/* Medium-sized button specifics */
 .btn-medium {
-    padding: 8px 20px;
-    font-size: 20px;
+    padding: 8px 20px; /* Standard padding */
+    font-size: 20px; /* Larger text for better readability */
 }
 
+/* Large-sized button specifics */
 .btn--large {
-    padding:12px 26px;
-    font-size: 20px;
+    padding: 12px 26px; /* Generous padding for a larger button */
+    font-size: 20px; /* Maintains the same font size as medium for consistency */
 }
 
+/* Hover effects for medium and large buttons */
 .btn--medium:hover, 
 .btn--large:hover {
-    background: #fff; 
-    color: #242424;
-    transition: all 0.3s ease-out;
+    background: #fff; /* Changes background to white on hover */
+    color: #242424; /* Text color changes to dark grey for visibility */
+    transition: all 0.3s ease-out; /* Ensures the color transition is smooth */
 }

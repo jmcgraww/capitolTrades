@@ -1,158 +1,139 @@
+/* Main navigation bar styling */
 .navbar {
   background: linear-gradient(90deg, rgb(28, 27, 27) 0%, rgb(26, 23, 23) 100%);
   height: 80px;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: center;  /* Center navbar content horizontally */
+  align-items: center;      /* Center navbar content vertically */
   font-size: 1.2rem;
-  position: sticky;
+  position: sticky;         /* Stick to the top of the viewport */
   top: 0;
-  z-index: 999;
+  z-index: 999;             /* Keep navbar on top of other content */
 }
 
+/* Container within navbar to manage width and alignment */
 .navbar-container {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 80px;
-  max-width: 1500px;
+  max-width: 1500px;         /* Maximum width of content in the navbar */
 }
 
+/* Styling for the logo/link back to the homepage */
 .navbar-logo {
-  color: #fff;
-  justify-self: start;
+  color: #fff;               /* White text color */
+  justify-self: start;       /* Align logo to the left */
   margin-left: 20px;
-  cursor: pointer;
-  text-decoration: none;
+  cursor: pointer;           /* Indicates the logo is clickable */
+  text-decoration: none;     /* No underline */
   font-size: 2rem;
   display: flex;
   align-items: center;
 }
 
+/* Additional icon next to the logo */
 .fa-typo3 {
   margin-left: 0.5rem;
   font-size: 1.8rem;
 }
 
+/* Styling for navigation menu items */
 .nav-menu {
-  display: grid;
-  grid-template-columns: repeat(4, auto);
-  grid-gap: 10px;
-  list-style: none;
+  display: grid;             /* Grid layout for menu items */
+  grid-template-columns: repeat(4, auto); /* Four columns of equal width */
+  grid-gap: 10px;            /* Space between columns */
+  list-style: none;          /* No bullet points */
   text-align: center;
-  width: 60vw;
-  justify-content: end;
+  width: 60vw;               /* Menu width takes up 60% of the viewport width */
+  justify-content: end;      /* Align menu items to the right */
   margin-right: 2rem;
 }
 
+/* Styling for each navigation item */
 .nav-item {
-  height: 80px;
+  height: 80px;              /* Fixed height for consistency */
 }
 
+/* Links within navigation items */
 .nav-links {
-  color: #fff;
+  color: #fff;               /* White text color */
   display: flex;
   align-items: center;
-  text-decoration: none;
-  padding: 0.5rem 1rem;
+  text-decoration: none;     /* No underline */
+  padding: 0.5rem 1rem;      /* Top and bottom padding 0.5rem, left and right 1rem */
   height: 100%;
 }
 
+/* Hover effect for navigation links */
 .nav-links:hover {
-  border-bottom: 4px solid #fff;
-  transition: all 0.2s ease-out;
+  border-bottom: 4px solid #fff; /* White border under the link */
+  transition: all 0.2s ease-out; /* Smooth transition for the hover effect */
 }
 
-.fa-bars {
-  color: #fff;
-}
-
-.nav-links-mobile {
-  display: none;
-}
-
-.menu-icon {
-  display: none;
-}
-
+/* Mobile-specific styles are adjusted via media query */
 @media screen and (max-width: 960px) {
-  .NavbarItems {
-      position: relative;
-  }
-
   .nav-menu {
-      display: flex;
-      flex-direction: column;
-      width: 100%;
-      height: 90vh;
-      position: absolute;
-      top: 80px;
-      left: -100%;
-      opacity: 1;
-      transition: all 0.5s ease;
+    display: flex;
+    flex-direction: column;   /* Stack menu items vertically */
+    width: 100%;              /* Full width */
+    height: 90vh;             /* Take up most of the viewport height */
+    position: absolute;       /* Positioned relative to its nearest positioned ancestor */
+    top: 80px;                /* Positioned below the navbar */
+    left: -100%;              /* Initially placed out of view */
+    opacity: 1;
+    transition: all 0.5s ease; /* Smooth transition for showing menu */
   }
 
   .nav-menu.active {
-      background: #242222;
-      left: 0;
-      opacity: 1;
-      transition: all 0.5s ease;
-      z-index: 1;
-  }
-
-  .nav-links {
-      text-align: center;
-      padding: 2rem;
-      width: 100%;
-      display: table;
+    background: #242222;     /* Dark background for the active menu */
+    left: 0;                 /* Align to the left edge */
+    opacity: 1;              /* Fully opaque */
+    transition: all 0.5s ease; /* Smooth transition for active state */
+    z-index: 1;              /* Ensure it's above other content */
   }
 
   .nav-links:hover {
-      background-color: #fff;
-      color: #242424;
-      border-radius: 0;
+    background-color: #fff;  /* White background on hover */
+    color: #242424;          /* Dark text on hover */
+    border-radius: 0;        /* No border radius */
   }
 
   .navbar-logo {
-      position: absolute;
-      top: 0;
-      left: 0;
-      transform: translate(0%, 50%);
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translate(0%, 50%);
   }
 
   .menu-icon {
-      display: block;
-      position: absolute;
-      top: 0;
-      right: 0;
-      transform: translate(-50%, 50%);
-      font-size: 1.8rem;
-      cursor: pointer;
-  }
-
-  .fa-times {
-      color: #fff;
-      font-size: 2rem;
+    display: block;          /* Show the menu icon */
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(-50%, 50%);
+    font-size: 1.8rem;
+    cursor: pointer;         /* Indicates the icon is clickable */
   }
 
   .nav-links-mobile {
-      display: block;
-      text-align: center;
-      margin: 2rem auto;
-      border-radius: 4px;
-      width: 80%;
-      text-decoration: none;
-      font-size: 1.5rem;
-      background-color: transparent;
-      color: #fff;
-      padding: 14px 20px;
-      border: 1px solid #fff;
-      transition: all 0.3s ease-out;
+    display: block;          /* Display the mobile link */
+    text-align: center;
+    margin: 2rem auto;
+    border-radius: 4px;
+    width: 80%;
+    text-decoration: none;
+    font-size: 1.5rem;
+    background-color: transparent;
+    color: #fff;
+    padding: 14px 20px;
+    border: 1px solid #fff;
+    transition: all 0.3s ease-out; /* Smooth transition for hover effects */
   }
 
   .nav-links-mobile:hover {
-      background: #fff;
-      color: #242424;
-      transition: 250ms;
+    background: #fff;        /* White background on hover */
+    color: #242424;          /* Dark text on hover */
+    transition: 250ms;       /* Quick transition for hover effects */
   }
 }

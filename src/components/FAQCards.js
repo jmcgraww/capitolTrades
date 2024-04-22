@@ -1,17 +1,19 @@
 import React from 'react';
-import './Cards.css';
-import CardItem from './CardItem';
-import clear from '../images/transparent.jpeg';
-import access from '../images/access.jpeg';
-import agree from '../images/agree.jpeg';
+import './Cards.css'; // Styles specific to cards
+import CardItem from './CardItem'; // Reusable card item component
+import clear from '../images/transparent.jpeg'; // Image for Transparency card
+import access from '../images/access.jpeg'; // Image for Accessibility card
+import agree from '../images/agree.jpeg'; // Image for CapitolTrades Explanation card
 
+// Functional component for displaying FAQ Cards
 function FAQCards() {
   return (
     <div className='cards'>
-      <h1>Our Principles</h1>
+      <h1>Our Principles</h1> // Header for the card section
       <div className='cards__container'>
         <div className='cards__wrapper'>
           <ul className='cards__items'>
+            {/* Individual card for Transparency in Trading */}
             <CardItem
               src={clear}
               text="Currently, members of Congress have almost 
@@ -21,6 +23,7 @@ function FAQCards() {
               of representatives."
               label='Transparency in Trading'
             />
+            {/* Individual card for Accessibility of Information */}
             <CardItem
               src={access}
               text="Lists of stocks that Congress is buying or selling should 
@@ -28,6 +31,7 @@ function FAQCards() {
               representative is contributing towards."
               label='Accessibility of Information'
             />
+            {/* Individual card explaining the importance of CapitolTrades */}
             <CardItem
               src={agree}
               text='This program is crucial for keeping our elected officials 
@@ -43,4 +47,5 @@ function FAQCards() {
   );
 }
 
+// exports the FAQCards component for use in other parts of the application
 export default FAQCards;

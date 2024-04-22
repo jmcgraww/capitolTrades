@@ -1,13 +1,15 @@
+/* General styles for the body to reset margins and set the default font family */
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  margin: 0;  /* Eliminate default margin */
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',  /* Main typefaces */
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    sans-serif;  /* Fallback typefaces */
+  -webkit-font-smoothing: antialiased;  /* Improve the readability of fonts on macOS and iOS */
+  -moz-osx-font-smoothing: grayscale;  /* Enhance font smoothing on Firefox macOS */
 }
 
+/* Specific font styling for elements with tagto enhance readability */
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',  /* Monospaced typefaces for equal character width */
     monospace;
 }

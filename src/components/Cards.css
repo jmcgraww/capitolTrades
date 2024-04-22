@@ -1,118 +1,115 @@
+/* Main container for cards with a white background and padding */
 .cards {
-    padding: 4rem;
-    background: #fff;
+  padding: 4rem;
+  background: #fff;
+}
+
+/* Styles for headings to center text alignment */
+h1 {
+  text-align: center;
+}
+
+/* Container for cards enabling a centered, columnar flex layout */
+.cards__container {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  max-width: 1120px; /* Maximum width for better content scaling */
+  width: 90%; /* Responsive width */
+  margin: 0 auto; /* Horizontally centering */
+}
+
+/* Relative positioning for the wrapper to allow absolute child positioning */
+.cards__wrapper {
+  position: relative;
+  margin: 50px 0 45px; /* Top and bottom margin for spacing */
+}
+
+/* Bottom margin for item separation */
+.cards__items {
+  margin-bottom: 24px;
+}
+
+/* Flex display for card items to ensure they are evenly spaced */
+.cards__item {
+  display: flex;
+  flex: 1;
+  margin: 0 1rem; /* Margin around items */
+  border-radius: 10px; /* Rounded corners for aesthetic */
+}
+
+/* Link styling within card items */
+.cards__item__link {
+  display: flex;
+  flex-flow: column;
+  width: 100%;
+  box-shadow: 0 6px 20px rgba(56, 125, 255, 0.17); /* Subtle shadow for depth */
+  border-radius: 10px;
+  overflow: hidden; /* Ensures no overflow of child content */
+  text-decoration: none; /* Removes underline from links */
+}
+
+/* Wrapper for images within cards to manage size and overflow */
+.cards__item__pic-wrap {
+  position: relative;
+  width: 100%;
+  padding-top: 67%; /* Aspect ratio control */
+  overflow: hidden;
+}
+
+/* Dynamic label for card images */
+.cards__item__pic-wrap::after {
+  content: attr(data-category); /* Uses attribute for content */
+  position: absolute;
+  bottom: 0;
+  margin-left: 10px;
+  padding: 6px 8px;
+  color: #fff;
+  background-color: #1f98f4; /* Blue background for visibility */
+  box-sizing: border-box;
+}
+
+/* Styling for images in cards, including animations */
+.cards__item__img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensures image covers the area without distortion */
+  transition: all 0.2s linear; /* Smooth transition for interactions */
+}
+
+/* Hover effect to slightly enlarge images */
+.cards__item__img:hover {
+  transform: scale(1.1);
+}
+
+/* Padding and text styling inside card */
+.cards__item__info {
+  padding: 20px 30px 30px;
+}
+
+/* Text styling for content within cards */
+.cards__item__text {
+  color: #252e48; /* Dark blue color for text */
+  font-size: 18px; /* Readable text size */
+  line-height: 24px; /* Adequate line height for readability */
+}
+
+/* Media queries for responsive layout adjustments */
+@media only screen and (min-width: 1200px) {
+  .content__blog__container {
+      width: 84%; /* Adjust width for larger screens */
   }
-  
-  h1 {
-    text-align: center;
-  }
-  
-  .cards__container {
-    display: flex;
-    flex-flow: column;
-    align-items: center;
-    max-width: 1120px;
-    width: 90%;
-    margin: 0 auto;
-  }
-  
-  .cards__wrapper {
-    position: relative;
-    margin: 50px 0 45px;
-  }
-  
+}
+
+@media only screen and (min-width: 1024px) {
   .cards__items {
-    margin-bottom: 24px;
+      display: flex; /* Flex layout for wider screens */
   }
-  
+}
+
+@media only screen and (max-width: 1024px) {
   .cards__item {
-    display: flex;
-    flex: 1;
-    margin: 0 1rem;
-    border-radius: 10px;
+      margin-bottom: 2rem; /* Increase bottom margin on smaller screens */
   }
-  
-  .cards__item__link {
-    display: flex;
-    flex-flow: column;
-    width: 100%;
-    box-shadow: 0 6px 20px rgba(56, 125, 255, 0.17);
-    -webkit-filter: drop-shadow(0 6px 20px rgba(56, 125, 255, 0.017));
-    filter: drop-shadow(0 6px 20px rgba(56, 125, 255, 0.017));
-    border-radius: 10px;
-    overflow: hidden;
-    text-decoration: none;
-  }
-  
-  .cards__item__pic-wrap {
-    position: relative;
-    width: 100%;
-    padding-top: 67%;
-    overflow: hidden;
-  }
-  
-  .fade-img {
-    animation-name: fade-img;
-    animation-duration: 2s;
-  }
-  
-  .cards__item__pic-wrap::after {
-    content: attr(data-category);
-    position: absolute;
-    bottom: 0;
-    margin-left: 10px;
-    padding: 6px 8px;
-    max-width: calc((100%) - 60px);
-    font-size: 12px;
-    font-weight: 700;
-    color: #fff;
-    background-color: #1f98f4;
-    box-sizing: border-box;
-  }
-  
-  .cards__item__img {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    display: block;
-    width: 100%;
-    max-width: 100%;
-    height: 100%;
-    max-height: 100%;
-    object-fit: cover;
-    transition: all 0.2s linear;
-  }
-  
-  .cards__item__img:hover {
-    transform: scale(1.1);
-  }
-  
-  .cards__item__info {
-    padding: 20px 30px 30px;
-  }
-  
-  .cards__item__text {
-    color: #252e48;
-    font-size: 18px;
-    line-height: 24px;
-  }
-  
-  @media only screen and (min-width: 1200px) {
-    .content__blog__container {
-      width: 84%;
-    }
-  }
-  
-  @media only screen and (min-width: 1024px) {
-    .cards__items {
-      display: flex;
-    }
-  }
-  
-  @media only screen and (max-width: 1024px) {
-    .cards__item {
-      margin-bottom: 2rem;
-    }
-  }
+}
