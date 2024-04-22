@@ -40,14 +40,12 @@ const CongressTrades = () => {
       setCongressMember('');
     }
   };
-  
 
   const fetchTrades = async (name) => {
     try {
       const response = await axios.get(`/trades/${name}`, {
         params: { data_structure: dataStructure },
       });
-      //console.log(response.data); // Log the response data - used for debugging
       setTrades(response.data);
       setCongressMember(name);
       setError('');
@@ -56,7 +54,6 @@ const CongressTrades = () => {
       setTrades([]);
     }
   };
-  
 
   const toggleTradeVisibility = (ticker) => {
     setVisibleTrades((prevVisibleTrades) => ({
@@ -90,28 +87,11 @@ const CongressTrades = () => {
     setPrevVisibleTrades(visibleTrades);
   };
 
-  // const getLastTradeType = (ticker) => {
-  //   const lastTrade = trades[ticker] && trades[ticker].length > 0 ? trades[ticker][0].trade_type : null;
-  //   return lastTrade;
-  // };
-
-  // const getButtonColor = (ticker) => {
-  //   const lastTradeType = getLastTradeType(ticker);
-  //   if (lastTradeType === 'Purchase') {
-  //     return 'green'; // Green color for purchase
-  //   } else if (lastTradeType === 'Sale') {
-  //     return 'red'; // Red color for sale
-  //   } else {
-  //     return '#efefef'; // Default color
-  //   }
-  // };
-
   const calculateTotalVolume = (trades) => {
     let totalVolume = 0;
     let totalTrades = 0; // Counter for the total number of trades
     
     trades.forEach((trade) => {
-      // Calculate the average amount based on the length of the 'amount' array
       let averageAmount = 0;
       if (trade.amount.length === 1) {
         averageAmount = trade.amount[0];
@@ -119,18 +99,22 @@ const CongressTrades = () => {
         averageAmount = (trade.amount[0] + trade.amount[1]) / 2;
       }
       
-      totalTrades++; // Increment the total trades counter
+      totalTrades++;
       totalVolume += averageAmount;
-    
     });
   
     if (totalTrades === 0) return '0'; // Handle division by zero
-    return totalVolume.toLocaleString(); // Return the total volume as localized string
+    return totalVolume.toLocaleString();
   };
-  
-  
-  
-  
+
+  // Sort tickers based on total volume
+  const sortedTickers = Object.keys(trades).filter(ticker => trades[ticker].length > 0)
+    .sort((tickerA, tickerB) => {
+      const totalVolumeA = calculateTotalVolume(trades[tickerA]);
+      const totalVolumeB = calculateTotalVolume(trades[tickerB]);
+      return parseInt(totalVolumeB.replace(/,/g, '')) - parseInt(totalVolumeA.replace(/,/g, ''));
+    });
+
   return (
     <div>
       <h1 style={{ marginTop: '60px', marginBottom: '30px' }}>Capitol Trades</h1>
@@ -189,7 +173,7 @@ const CongressTrades = () => {
           marginRight: '20px',
         }}
       >
-        {Object.keys(trades).map((ticker) => (
+        {sortedTickers.map((ticker) => (
           <div
             key={`${ticker}-${visibleTrades[ticker]}`}
             style={{
@@ -205,7 +189,6 @@ const CongressTrades = () => {
                 height: '60px',
                 fontSize: '16px',
                 borderRadius: '5px',
-                //background: getButtonColor(ticker),
                 border: 'none',
                 boxShadow: '0px 2px 5px rgba(0, 0, 0, 0.2)',
                 cursor: 'pointer',
