@@ -47,6 +47,7 @@ const CongressTrades = () => {
       const response = await axios.get(`/trades/${name}`, {
         params: { data_structure: dataStructure },
       });
+      console.log(response.data); // Log the response data
       setTrades(response.data);
       setCongressMember(name);
       setError('');
@@ -55,6 +56,7 @@ const CongressTrades = () => {
       setTrades([]);
     }
   };
+  
 
   const toggleTradeVisibility = (ticker) => {
     setVisibleTrades((prevVisibleTrades) => ({
@@ -246,7 +248,7 @@ const CongressTrades = () => {
                       style={{ background: '#f7f7f7', margin: '5px 0', padding: '10px', borderRadius: '5px' }}
                     >
                       <div>
-                        Date: {trade.date} | Type: {trade.trade_type} | {trade.amount_str}
+                        Date: {trade.date} | Type: {trade.trade_type} | {String(trade.amount.amount)}
                       </div>
                     </li>
                   ))}

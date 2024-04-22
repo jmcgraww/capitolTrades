@@ -21,9 +21,9 @@ class Stock:
         cleaned_amounts = self.clean_amount(amount_str)
 
         if date in self.trades:
-            self.trades[date].append((trade_type, cleaned_amounts))
+            self.trades[date].append((trade_type, cleaned_amounts, amount_str))
         else:
-            self.trades[date] = [(trade_type, cleaned_amounts)]
+            self.trades[date] = [(trade_type, cleaned_amounts, amount_str)]
 
     def calculate_volume(self):
         self.total_volume = 0  # Reset total_volume attribute
@@ -48,6 +48,7 @@ def build_politician_graphs(data):
                 entry['type'],
                 entry['amount']
             )
+        
     # Calculate total volume for each stock
     for politician_graph in politicians.values():
         for stock in politician_graph.stocks.values():
@@ -86,6 +87,10 @@ class PoliticianGraph:
     def add_trade(self, ticker, company_name, date, trade_type, amount):
         if ticker not in self.stocks:
             self.stocks[ticker] = Stock(ticker, company_name)
+        if (trade_type == "sale_partial" or trade_type == "sale_full" or trade_type == "sale"):
+            trade_type = "Sale"
+        if (trade_type == "purchase"):
+            trade_type = "Purchase"
         self.stocks[ticker].add_trade(date, trade_type, amount)
 
 
@@ -120,6 +125,12 @@ class PoliticianMatrix:
                         }
                         for trade in trades_list
                     ]
+            for i, trade in enumerate(trades[ticker]):
+                if trade['trade_type'] in ("sale_partial", "sale_full", "sale"):
+                    trades[ticker][i]['trade_type'] = "Sale"
+                elif trade['trade_type'] == "purchase":
+                    trades[ticker][i]['trade_type'] = "Purchase"
+
             return trades
         return None  #Return None if the politician is not found
 
