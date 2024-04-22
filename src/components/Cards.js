@@ -7,7 +7,7 @@ import govPic from '../images/govPic.jpeg';
 function Cards() {
   return (
     <div className='cards'>
-      <h1>Explore CapitolTrades</h1>
+      <h1>Explore</h1>
       <div className='cards__container'>
         <div className='cards__wrapper'>
           <ul className='cards__items'>
