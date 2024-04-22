@@ -116,20 +116,20 @@ const CongressTrades = () => {
     }));
   };
 
-  const calculateTotalVolume = (trades) => { //calculate total traded volume of a stock by a politician
+  const calculateTotalVolume = (trades) => {
     let totalVolume = 0;
   
     if (typeof trades !== 'object' || trades === null) {
       return totalVolume.toLocaleString();
     }
   
-    const processTrade = (trade) => { //helper function for calculateTotalVolume
-      console.log('Processing trade:', trade); // Log the trade object
+    const processTrade = (trade) => {
+      console.log('Processing trade:', trade);
       if (trade.amount) {
         const amounts = parseAmount(trade.amount);
-        console.log('Parsed amounts:', amounts); // Log parsed amounts to verify correct parsing
+        console.log('Parsed amounts:', amounts);
         const volume = calculateVolumeFromAmounts(amounts);
-        if (!isNaN(volume)) { // Check for NaN explicitly
+        if (!isNaN(volume)) {
           totalVolume += volume;
         } else {
           console.error('Calculated NaN volume for amounts:', amounts);
@@ -151,6 +151,7 @@ const CongressTrades = () => {
   
     return totalVolume.toLocaleString();
   };
+  
 
   function parseAmount(amount) { //helper function to decide between matrix/list volume calculation
     if (Array.isArray(amount)) {
@@ -300,7 +301,8 @@ const CongressTrades = () => {
                       style={{ background: '#f7f7f7', margin: '5px 0', padding: '10px', borderRadius: '5px' }}
                     >
                       <div>
-                        {trade.date} | {trade.trade_type === "sale_partial" || trade.trade_type === "sale_full" || trade.trade_type === "sale" ? "Sale" : "Purchase"} | {trade.amount_str}
+                        {trade.date} | {trade.trade_type === "sale_partial" || trade.trade_type === "sale_full" || trade.trade_type === "sale" ? "Sale" : "Purchase"} | 
+                        {trade.amount_str.startsWith("Lessthan") ? " Less than " + "$" + trade.amount_str.substring("Less than".length) : " " + trade.amount_str}
                       </div>
                     </div>
                   ))}

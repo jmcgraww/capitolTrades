@@ -14,23 +14,34 @@ class Stock:
             return [int(cleaned_amount.replace('+', '').strip())]
         elif '-' in cleaned_amount:  # Handle the case of a single number followed by a hyphen
             return [int(cleaned_amount.replace('-', '').strip())]
+        elif cleaned_amount.startswith('Less than'):  # Handle "Less than" case
+            return [cleaned_amount]
         else:
             return [int(cleaned_amount.strip())]
 
+    
     def add_trade(self, date, trade_type, amount_str):
         cleaned_amounts = self.clean_amount(amount_str)
-
+        # Conditional if the string only has one dollar sign
+        if amount_str.count("$") == 1:
+            trade_amount = amount_str.split(' ')[0]
+            amount_str = f"Less than {trade_amount}"
         if date in self.trades:
             self.trades[date].append((trade_type, cleaned_amounts, amount_str))
         else:
             self.trades[date] = [(trade_type, cleaned_amounts, amount_str)]
 
     def calculate_volume(self):
-        self.total_volume = 0  # Reset total_volume attribute
-        for trades_list in self.trades.values():
-            for trade in trades_list:
-                for amount in trade[1]:
-                    self.total_volume += amount  # Sum the individual amounts within the range if present
+            self.total_volume = 0  # Reset total_volume attribute
+            for trades_list in self.trades.values():
+                for trade in trades_list:
+                    for amount in trade[1]:
+                        if isinstance(amount, int):  # Check if amount is an integer
+                            self.total_volume += amount  # Sum the individual amounts within the range if present
+                        elif isinstance(amount, str) and amount.startswith("Less than"):
+                            # Extract the numeric part from the "Less than" string and add it to total_volume
+                            trade_amount = int(amount.split(" ")[2])
+                            self.total_volume += trade_amount
 
 
 
@@ -62,6 +73,9 @@ def build_politician_matrix(data, stock_list):
 
     for entry in data:
         if entry['ticker'] != "--" and entry['representative']:
+            if entry['amount'].count("$") == 1:
+                trade_amount = entry['amount'].split(' ')[0]
+                entry['amount'] = f"Less than {trade_amount}"
             matrix.add_trade(
                 entry['representative'],
                 entry['ticker'], {
