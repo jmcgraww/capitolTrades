@@ -65,6 +65,9 @@ def build_politician_matrix(data, stock_list):
 
     for entry in data:
         if entry['ticker'] != "--" and entry['representative']:
+            if entry['amount'].count("$") == 1:
+                trade_amount = entry['amount'].split(' ')[0]
+                entry['amount'] = f"Less than {trade_amount}"
             matrix.add_trade(
                 entry['representative'],
                 entry['ticker'], {
