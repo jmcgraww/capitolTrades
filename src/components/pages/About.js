@@ -7,8 +7,8 @@ import HeroSection from '../About_HeroSection'; // Hero section component specif
 function About() {
   return (
     <>
-      <HeroSection /> // Embed the About page hero section at the top
-      <FAQCards />    // Display a series of FAQ cards below the hero section
+      <HeroSection /> 
+      <FAQCards />    
     </>
   );
 }

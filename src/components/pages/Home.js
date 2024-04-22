@@ -7,8 +7,8 @@ import HeroSection from '../HeroSection'; // Import HeroSection component for sh
 function Home() {
   return (
     <>
-      <HeroSection /> // Displays the hero section at the top of the page
-      <Cards />       // Displays a set of cards for additional information navigation
+      <HeroSection /> 
+      <Cards />       
     </>
   );
 }

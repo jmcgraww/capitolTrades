@@ -9,7 +9,7 @@ import agree from '../images/agree.jpeg'; // Image for CapitolTrades Explanation
 function FAQCards() {
   return (
     <div className='cards'>
-      <h1>Our Principles</h1> // Header for the card section
+      <h1>Our Principles</h1> 
       <div className='cards__container'>
         <div className='cards__wrapper'>
           <ul className='cards__items'>

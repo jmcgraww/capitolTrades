@@ -19,7 +19,7 @@ function HeroSection() {
           path="/about"
           className="btns" 
           buttonStyle='btn--outline' // Style definition for an outlined button
-          buttonSize='btn--large'> // Large button size
+          buttonSize='btn--large'>
           Who We Are
         </Button>
         
@@ -28,8 +28,8 @@ function HeroSection() {
           path="/search" 
           className="btns" 
           buttonStyle='btn--primary' // Style definition for a primary button
-          buttonSize='btn--large'> // Large button size
-          Discover the Moves of Congress<i className='far fa-play-circle' /> // Icon indicating action
+          buttonSize='btn--large'> 
+          Discover the Moves of Congress<i className='far fa-play-circle' /> 
         </Button>
       </div>
     </div>
