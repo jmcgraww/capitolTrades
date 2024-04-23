@@ -124,10 +124,8 @@ const CongressTrades = () => {
     }
   
     const processTrade = (trade) => {
-      console.log('Processing trade:', trade);
       if (trade.amount) {
         const amounts = parseAmount(trade.amount);
-        console.log('Parsed amounts:', amounts);
         const volume = calculateVolumeFromAmounts(amounts);
         if (!isNaN(volume)) {
           totalVolume += volume;
@@ -301,7 +299,7 @@ const CongressTrades = () => {
                       style={{ background: '#f7f7f7', margin: '5px 0', padding: '10px', borderRadius: '5px' }}
                     >
                       <div>
-                        {trade.date} | {trade.trade_type === "sale_partial" || trade.trade_type === "sale_full" || trade.trade_type === "sale" ? "Sale" : "Purchase"} | 
+                        {trade.date} | {trade.trade_type === "sale_partial" || trade.trade_type === "sale_full" || trade.trade_type === "sale" || trade.trade_type === "Sale" ? "Sale" : "Purchase"} | 
                         {trade.amount_str.startsWith("Lessthan") ? " Less than " + "$" + trade.amount_str.substring("Less than".length) : " " + trade.amount_str}
                       </div>
                     </div>
