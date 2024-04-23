@@ -3,10 +3,12 @@ Capitol Trades is a web app dedicated to monitoring congress members' trades.
 
 TO RUN:
 
+    Ensure you have Flask, Flask CORS, Python, and node.js installed before continuing
+
     BACKEND:
             Create new Terminal window
             cd to 'backend' folder
-            Run command 'python server.py' (Assuming Python is installed)
+            Run command 'python server.py'
 
     WEB APP:
             Create new Terminal window
